@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{% endblock title %}
+
+{% block link %}
+{% endblock link %}
+
+{% block maincontent %}
+    <section class="content">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">新增组件</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'golang:subassemblycreate' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {{ form.SName.errors }}
+                                <label for="{{ form.SName.id_for_label }}">组件名称</label>
+                                {{ form.SName }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.SNameEN.errors }}
+                                <label for="{{ form.SNameEN.id_for_label }}">组件标识</label>
+                                {{ form.SNameEN }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.CodePath.errors }}
+                                <label for="{{ form.CodePath.id_for_label }}">code路径</label>
+                                {{ form.CodePath }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.Project.errors }}
+                                <label for="{{ form.Project.id_for_label }}">归属项目</label>
+                                {{ form.Project }}
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a href="{% url 'golang:subassemblyshow' %}" class="btn btn-secondary">返回</a>
+                                    <input type="submit" value="新增" class="btn btn-success float-right">
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+
+            </div>
+
+        </div>
+    </section>
+{% endblock maincontent %}
+
+
+{% block script %}
+    <script src="{% static 'adminLET/dist/js/demo.js' %}"></script>
+{% endblock script %}

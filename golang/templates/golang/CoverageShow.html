@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load golang_extras %}
+{% load static %}
+
+{% block title %}
+{% endblock title %}
+
+
+{% block link %}
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{% static 'adminLET/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'adminLET/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'adminLET/plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
+{% endblock link %}
+
+{% block maincontent %}
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-sm-4 col-md-4">
+                                    <h3 class="card-title">覆盖度查看</h3>
+                                </div>
+                                {#                                <div class="col-sm-1 col-md-1">#}
+                                {#                                    <a class="btn btn-info btn-sm float-right" href="{% url 'golang:projectcreate' %}">#}
+                                {#                                        <i class="fas fa-pencil-alt">#}
+                                {#                                        </i>#}
+                                {#                                        全量#}
+                                {#                                    </a>#}
+                                {#                                </div>#}
+                                {#                                <div class="col-sm-1 col-md-1">#}
+                                {#                                    <a class="btn btn-primary btn-sm" href="{% url 'golang:projectcreate' %}">#}
+                                {#                                        <i class="fas fa-pencil-alt">#}
+                                {#                                        </i>#}
+                                {#                                        增量#}
+                                {#                                    </a>#}
+                                {#                                </div>#}
+
+
+                            </div>
+
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>报告名称</th>
+                                    <th>覆盖率</th>
+                                    <th>报告类型</th>
+                                    <th>起始CommitID</th>
+                                    <th>结束CommitID</th>
+{#                                    <th>报告路径</th>#}
+                                    <th>归属组件</th>
+                                    <th>创建时间</th>
+                                    <th></th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for report in ReportList %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ report.RName|NoneToEmpty }}</td>
+                                        <td>{{ report.CoverageAvg|NoneToEmpty }}</td>
+                                        {% if report.Rtype == 1 %}
+                                            <td>全量</td>
+                                        {% elif report.Rtype == 2 %}
+                                            <td>增量</td>
+                                        {% endif %}
+                                        <td>{{ report.RstartgitID|NoneToEmpty }}</td>
+                                        <td>{{ report.RendgitID|NoneToEmpty }}</td>
+{#                                        <td>{{ report.RnewUrl|NoneToEmpty }}</td>#}
+                                        <td>{{ report.SubassemblyID|NoneToEmpty }}</td>
+                                        <td>{{ report.CreateTime }}</td>
+                                        <td class="project-actions text-right">
+                                            <a class="btn btn-danger btn-sm"
+                                               href="{% url 'golang:coveragereport' report.id %}" target="_blank">
+                                                <i class="fa fa-edit">
+                                                </i>
+                                                查看
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>报告名称</th>
+                                    <th>覆盖率</th>
+                                    <th>报告类型</th>
+                                    <th>起始CommitID</th>
+                                    <th>结束CommitID</th>
+{#                                    <th>报告路径</th>#}
+                                    <th>归属组件</th>
+                                    <th>创建时间</th>
+                                    <th></th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+
+{% endblock maincontent %}
+
+
+
+{% block script %}
+    <!-- DataTables  & Plugins -->
+    <script src="{% static 'adminLET/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'adminLET/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'adminLET/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'adminLET/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'adminLET/plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'adminLET/plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'adminLET/plugins/jszip/jszip.min.js' %}"></script>
+    <script src="{% static 'adminLET/plugins/pdfmake/pdfmake.min.js' %}"></script>
+    <script src="{% static 'adminLET/plugins/pdfmake/vfs_fonts.js' %}"></script>
+    <script src="{% static 'adminLET/plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'adminLET/plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'adminLET/plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="{% static 'adminLET/dist/js/demo.js' %}"></script>
+{#    <script>#}
+{#        $(function () {#}
+{#            $("#example1").DataTable({#}
+{#                "responsive": true, "lengthChange": false, "autoWidth": false,#}
+{#                "buttons": ["copy", "csv", "excel", "colvis"]#}
+{#            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');#}
+{#            $('#example2').DataTable({#}
+{#                "paging": true,#}
+{#                "lengthChange": false,#}
+{#                "searching": true,#}
+{#                "ordering": true,#}
+{#                "info": true,#}
+{#                "autoWidth": true,#}
+{#                "responsive": true,#}
+{#            });#}
+{#        });#}
+{#        $("#project").change(function () {#}
+{#            console.log(this);#}
+{#            var myselect = $("#project option:selected");#}
+{#            let projectid = myselect.val();#}
+{#            $.ajax({#}
+{#                type: "get",#}
+{#                url: "{% url 'golang:project_getsubassembly' %}?id=" + projectid,#}
+{#                contentType: "application/json;charset=utf-8",#}
+{#                dataType: "json",#}
+{#                json: "callback",#}
+{#                success: function (json) {#}
+{#                    $("#subassembly").empty();#}
+{##}
+{#                    $.each(json.data, function (index, item) {#}
+{#                        console.log(index, item)#}
+{#                        var SName = item.SName;#}
+{#                        var SID = item.id;#}
+{#                        console.log(SName, SID)#}
+{#                        $("#subassembly").append("<option value='" + SID + "'>" + SName + "</option>");#}
+{#                        //使用refresh方法更新UI以匹配新状态。#}
+                        {#$("#subassembly").selectpicker('refresh');#}
+{#                        //render方法强制重新渲染引导程序 - 选择ui。#}
+                        {#$("#subassembly").selectpicker('render');#}
+{#                    })#}
+{#                }#}
+{#            })#}
+{##}
+{#        })#}
+{#    </script>#}
+
+{% endblock script %}

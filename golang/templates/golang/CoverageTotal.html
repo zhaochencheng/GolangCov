@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+{% endblock title %}
+
+{% block link %}
+{% endblock %}
+
+{% block maincontent %}
+    <section class="content">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">全量获取</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="bt  n btn-tool" data-card-widget="collapse" title="Collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'golang:coveragetotal' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="subassembly">组件名称</label>
+                                <select id="subassembly" class="form-control custom-select" name="subassembly">
+                                    <option selected disabled value="-1">Select one</option>
+                                    {% for subassembly in subassembly_list %}
+                                        <option value="{{ subassembly.id }}">{{ subassembly.SName }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="version">版本号</label>
+                                <input type="text" id="version" class="form-control" name="version"
+                                       placeholder="如:构建版本号">
+                            </div>
+                            <div class="form-group">
+                                <label for="gocaddress">Goc地址</label>
+                                <select id="gocaddress" class="form-control custom-select" name="gocaddress">
+                                    <option selected disabled value="-1">Select one</option>
+                                </select>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a href="{% url 'golang:coverageshow' %}" class="btn btn-secondary">返回</a>
+                                    <input type="submit" value="获取" class="btn btn-success float-right">
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+
+            </div>
+
+        </div>
+    </section>
+{% endblock maincontent %}
+
+{% block script %}
+    <script src="{% static 'adminLET/dist/js/demo.js' %}"></script>
+    <script>
+        jQuery(function ($) {
+            $("#subassembly").change(function () {
+                {#console.log(this.value)#}
+                let SID = this.value
+                $.ajax({
+                    type: "get",
+                    url: "{% url 'golang:goclist' %}?id=" + SID,
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    json: "callback",
+                    success: function (json) {
+                        $("#gocaddress").empty();
+                        {#$("#subassembly").append("<option selected='selected' value='-1'>请选择项目</option>");#}
+                        console.log(json);
+                        $.each(json, function (index, item) {
+                            console.log(index)
+                            console.log(item)
+                            $("#gocaddress").append("<option value='" + item + "'>" + item + "</option>");
+                            //使用refresh方法更新UI以匹配新状态。
+                            {#$("#subassembly").selectpicker('refresh');#}
+                            //render方法强制重新渲染引导程序 - 选择ui。
+                            {#$("#subassembly").selectpicker('render');#}
+                        });
+
+
+                    },
+                    error: function () {
+
+                    }
+                })
+
+            })
+
+        })
+    </script>
+{% endblock script %}

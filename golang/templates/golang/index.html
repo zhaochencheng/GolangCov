@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    <title>GoCoverage</title>
+{% endblock title %}
+
+{% block maincontent %}
+    {#    {% extends '123.html' %}#}
+    {#    <object data="{% static 'golang/gocoverage.html' %}" type="text/x-scriptlet" class="content"></object>#}
+    <iframe align="center" src="{% static 'golang/gocoverage.html' %}" height="1000px" width="100%"></iframe>
+    {#    {% include 'golang/golang/gocoverage.html' %}#}
+{% endblock maincontent %}
+{% block script %}
+{% endblock script %}

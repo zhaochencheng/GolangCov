@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{% endblock title %}
+
+{% block link %}
+{% endblock link %}
+
+{% block maincontent %}
+    {#    <aside class="main-sidebar sidebar-dark-primary elevation-4">#}
+    {#        <!-- Brand Logo -->#}
+    {#        <a href="{% url 'golang:index' %}" class="brand-link">#}
+    {#            <img src="dist/img/AdminLTELogo.png" alt="Logo" class="brand-image img-circle elevation-3"#}
+    {#                 style="opacity: .8">#}
+    {#            <span class="brand-text font-weight-light">GO-Coverage</span>#}
+    {#        </a>#}
+    {##}
+    {#        <!-- Sidebar -->#}
+    {#        <div class="sidebar">#}
+    {##}
+    {#        </div>#}
+    {#        <!-- /.sidebar -->#}
+    {#    </aside>#}
+
+    <div class="container">
+        <div class="row">
+            <div class="col" style="border: solid 1px black">
+                		<pre class="file" id="file2">package config
+
+import (
+        "git.iflytek.com/cbgme/gobase/mongo"
+)
+
+func initMongo(confPath string) error <span class="cov8" title="1">{
+        return mongo.Init(confPath)
+}</span>
+
+func destroyMongo() <span class="cov0" title="0">{
+        mongo.Destroy()
+}</span>
+</pre>
+            </div>
+            <div class="col" style="border: solid 1px black">
+                2 of 3
+            </div>
+        </div>
+    </div>
+        <div class="container">
+        <div class="col">
+            <div class="row">
+                <pre class="file" id="file2">package config
+
+import (
+        "git.iflytek.com/cbgme/gobase/mongo"
+)
+
+func initMongo(confPath string) error <span class="cov8" title="1">{
+        return mongo.Init(confPath)
+}</span>
+
+func destroyMongo() <span class="cov0" title="0">{
+        mongo.Destroy()
+}</span>
+</pre>
+            </div>
+
+        </div>
+    </div>
+{% endblock maincontent %}
+
+{% block script %}
+{% endblock script %}
